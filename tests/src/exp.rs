@@ -13,7 +13,6 @@
 // License for the specific language governing permissions and limitations under
 // the License.
 use crate::common;
-use env_logger;
 
 use aerospike::expressions::*;
 use aerospike::ParticleType;
@@ -32,7 +31,7 @@ fn create_test_set(no_records: usize) -> String {
         let key = as_key!(namespace, &set_name, i);
         let ibin = as_bin!("bin", i);
         let sbin = as_bin!("bin2", format!("{}", i));
-        let fbin = as_bin!("bin3", i as f64 / 3 as f64);
+        let fbin = as_bin!("bin3", i as f64 / 3_f64);
         let str = format!("{}{}", "blob", i);
         let bbin = as_bin!("bin4", str.as_bytes());
         let lbin = as_bin!("bin5", as_list!("a", "b", i));
@@ -374,9 +373,8 @@ fn expression_commands() {
         Ok(results) => {
             for result in results {
                 let mut count = 0;
-                match result.record {
-                    Some(_) => count += 1,
-                    None => {}
+                if result.record.is_some() {
+                    count += 1
                 }
                 assert_eq!(count, 1, "BATCH GET Ok Test Failed")
             }
@@ -389,8 +387,10 @@ fn test_filter(filter: FilterExpression, set_name: &str) -> Arc<Recordset> {
     let client = common::client();
     let namespace = common::namespace();
 
-    let mut qpolicy = QueryPolicy::default();
-    qpolicy.filter_expression = Some(filter);
+    let qpolicy = QueryPolicy {
+        filter_expression: Some(filter),
+        ..Default::default()
+    };
 
     let statement = Statement::new(namespace, set_name, Bins::All);
     client.query(&qpolicy, statement).unwrap()

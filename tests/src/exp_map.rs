@@ -1,5 +1,4 @@
 use crate::common;
-use env_logger;
 
 use aerospike::expressions::maps::*;
 use aerospike::expressions::*;
@@ -39,7 +38,7 @@ fn expression_map() {
                 ExpType::INT,
                 string_val("test3".to_string()),
                 put(
-                    &MapPolicy::default(),
+                    MapPolicy::default(),
                     string_val("test3".to_string()),
                     int_val(999),
                     map_bin("bin".to_string()),
@@ -63,7 +62,7 @@ fn expression_map() {
                 MapReturnType::Value,
                 list_val(vec![Value::from("test4"), Value::from("test5")]),
                 put_items(
-                    &MapPolicy::default(),
+                    MapPolicy::default(),
                     map_val(map),
                     map_bin("bin".to_string()),
                     &[],
@@ -83,7 +82,7 @@ fn expression_map() {
                 MapReturnType::Count,
                 int_val(5),
                 increment(
-                    &MapPolicy::default(),
+                    MapPolicy::default(),
                     string_val("test".to_string()),
                     int_val(1),
                     map_bin("bin".to_string()),
@@ -594,8 +593,10 @@ fn test_filter(filter: FilterExpression, set_name: &str) -> Arc<Recordset> {
     let client = common::client();
     let namespace = common::namespace();
 
-    let mut qpolicy = QueryPolicy::default();
-    qpolicy.filter_expression = Some(filter);
+    let qpolicy = QueryPolicy {
+        filter_expression: Some(filter),
+        ..Default::default()
+    };
 
     let statement = Statement::new(namespace, set_name, Bins::All);
     client.query(&qpolicy, statement).unwrap()

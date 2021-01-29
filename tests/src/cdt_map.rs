@@ -16,7 +16,6 @@
 use std::collections::HashMap;
 
 use crate::common;
-use env_logger;
 
 use aerospike::operations::cdt_context::ctx_map_key;
 use aerospike::operations::maps;

@@ -1,5 +1,4 @@
 use crate::common;
-use env_logger;
 
 use aerospike::operations::hll;
 use aerospike::operations::hll::HLLPolicy;

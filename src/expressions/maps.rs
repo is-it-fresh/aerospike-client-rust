@@ -24,7 +24,7 @@ const MODULE: i64 = 0;
 
 /// Create expression that writes key/value item to map bin.
 pub fn put(
-    policy: &MapPolicy,
+    policy: MapPolicy,
     key: FilterExpression,
     value: FilterExpression,
     bin: FilterExpression,
@@ -53,7 +53,7 @@ pub fn put(
 
 /// Create expression that writes each map item to map bin.
 pub fn put_items(
-    policy: &MapPolicy,
+    policy: MapPolicy,
     map: FilterExpression,
     bin: FilterExpression,
     ctx: &[CdtContext],
@@ -80,7 +80,7 @@ pub fn put_items(
 /// Create expression that increments values by incr for all items identified by key.
 /// Valid only for numbers.
 pub fn increment(
-    policy: &MapPolicy,
+    policy: MapPolicy,
     key: FilterExpression,
     incr: FilterExpression,
     bin: FilterExpression,

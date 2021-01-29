@@ -61,6 +61,6 @@ fn close() {
     if let Ok(()) = client.close() {
         assert_eq!(client.is_connected(), false);
     } else {
-        assert!(false, "Failed to close client");
+        unreachable!("Failed to close client");
     }
 }

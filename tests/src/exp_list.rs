@@ -1,5 +1,4 @@
 use crate::common;
-use env_logger;
 
 use aerospike::expressions::lists::*;
 use aerospike::expressions::*;
@@ -504,8 +503,10 @@ fn test_filter(filter: FilterExpression, set_name: &str) -> Arc<Recordset> {
     let client = common::client();
     let namespace = common::namespace();
 
-    let mut qpolicy = QueryPolicy::default();
-    qpolicy.filter_expression = Some(filter);
+    let qpolicy = QueryPolicy {
+        filter_expression: Some(filter),
+        ..Default::default()
+    };
 
     let statement = Statement::new(namespace, set_name, Bins::All);
     client.query(&qpolicy, statement).unwrap()

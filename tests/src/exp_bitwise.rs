@@ -13,7 +13,6 @@
 // License for the specific language governing permissions and limitations under
 // the License.
 use crate::common;
-use env_logger;
 
 use aerospike::expressions::bitwise::*;
 use aerospike::expressions::*;
@@ -63,7 +62,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(16),
                 resize(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(4),
                     BitwiseResizeFlags::Default,
                     blob_bin("bin".to_string()),
@@ -82,7 +81,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(16),
                 insert(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     blob_val(vec![0b11111111]),
                     blob_bin("bin".to_string()),
@@ -101,7 +100,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 remove(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(1),
                     blob_bin("bin".to_string()),
@@ -120,7 +119,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 set(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     blob_val(vec![0b10101010]),
@@ -140,7 +139,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 bitwise::or(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     blob_val(vec![0b10101010]),
@@ -160,7 +159,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 xor(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     blob_val(vec![0b10101011]),
@@ -180,7 +179,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 bitwise::and(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     blob_val(vec![0b10101011]),
@@ -200,7 +199,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 bitwise::not(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     blob_bin("bin".to_string()),
@@ -219,7 +218,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 lshift(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(16),
                     int_val(9),
@@ -239,7 +238,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 rshift(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     int_val(3),
@@ -259,7 +258,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 add(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     int_val(128),
@@ -281,7 +280,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 subtract(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     int_val(1),
@@ -303,7 +302,7 @@ fn expression_bitwise() {
                 int_val(0),
                 int_val(8),
                 set_int(
-                    &BitPolicy::default(),
+                    BitPolicy::default(),
                     int_val(0),
                     int_val(8),
                     int_val(255),
@@ -372,8 +371,10 @@ fn test_filter(filter: FilterExpression, set_name: &str) -> Arc<Recordset> {
     let client = common::client();
     let namespace = common::namespace();
 
-    let mut qpolicy = QueryPolicy::default();
-    qpolicy.filter_expression = Some(filter);
+    let qpolicy = QueryPolicy {
+        filter_expression: Some(filter),
+        ..Default::default()
+    };
 
     let statement = Statement::new(namespace, set_name, Bins::All);
     client.query(&qpolicy, statement).unwrap()
