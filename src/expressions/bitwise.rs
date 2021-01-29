@@ -57,11 +57,11 @@ pub enum BitExpOp {
 /// use aerospike::expressions::bitwise::{count, resize};
 /// eq(
 ///   count(int_val(0), int_val(3),
-///     resize(&BitPolicy::default(), int_val(4), BitwiseResizeFlags::Default, blob_bin("a".to_string()))),
+///     resize(BitPolicy::default(), int_val(4), BitwiseResizeFlags::Default, blob_bin("a".to_string()))),
 ///   int_val(2));
 /// ```
 pub fn resize(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     byte_size: FilterExpression,
     resize_flags: BitwiseResizeFlags,
     bin: FilterExpression,
@@ -90,11 +90,11 @@ pub fn resize(
 /// let bytes: Vec<u8> = vec![];
 /// eq(
 ///   count(int_val(0), int_val(3),
-///     insert(&BitPolicy::default(), int_val(1), blob_val(bytes), blob_bin("a".to_string()))),
+///     insert(BitPolicy::default(), int_val(1), blob_val(bytes), blob_bin("a".to_string()))),
 ///   int_val(2));
 /// ```
 pub fn insert(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     byte_offset: FilterExpression,
     value: FilterExpression,
     bin: FilterExpression,
@@ -121,11 +121,11 @@ pub fn insert(
 /// use aerospike::expressions::bitwise::{count, remove};
 /// eq(
 ///   count(int_val(0), int_val(3),
-///     remove(&BitPolicy::default(), int_val(2), int_val(3), blob_bin("a".to_string()))),
+///     remove(BitPolicy::default(), int_val(2), int_val(3), blob_bin("a".to_string()))),
 ///   int_val(2));
 /// ```
 pub fn remove(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     byte_offset: FilterExpression,
     byte_size: FilterExpression,
     bin: FilterExpression,
@@ -154,11 +154,11 @@ pub fn remove(
 /// let bytes: Vec<u8> = vec![];
 /// eq(
 ///   count(int_val(0), int_val(3),
-///     set(&BitPolicy::default(), int_val(13), int_val(3), blob_val(bytes), blob_bin("a".to_string()))),
+///     set(BitPolicy::default(), int_val(13), int_val(3), blob_val(bytes), blob_bin("a".to_string()))),
 ///   int_val(2));
 /// ```
 pub fn set(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,
@@ -185,7 +185,7 @@ pub fn set(
 /// bin result = [0b00000001, 0b01000010, 0b01010111, 0b00000100, 0b00000101]
 /// ```
 pub fn or(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,
@@ -212,7 +212,7 @@ pub fn or(
 /// bin result = [0b00000001, 0b01000010, 0b01010101, 0b00000100, 0b00000101]
 /// ```
 pub fn xor(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,
@@ -239,7 +239,7 @@ pub fn xor(
 /// bin result = [0b00000001, 0b01000010, 0b00000010, 0b00000000, 0b00000101]
 /// ```
 pub fn and(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,
@@ -264,7 +264,7 @@ pub fn and(
 /// bin result = [0b00000001, 0b01000010, 0b00000011, 0b01111010, 0b00000101]
 /// ```
 pub fn not(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     bin: FilterExpression,
@@ -288,7 +288,7 @@ pub fn not(
 /// bin result = [0b00000001, 0b01000010, 0b00000011, 0b00000100, 0b00101000]
 /// ```
 pub fn lshift(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     shift: FilterExpression,
@@ -314,7 +314,7 @@ pub fn lshift(
 /// bin result = [0b00000000, 0b11000010, 0b00000011, 0b00000100, 0b00000101]
 /// ```
 pub fn rshift(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     shift: FilterExpression,
@@ -343,7 +343,7 @@ pub fn rshift(
 /// bin result = [0b00000001, 0b01000010, 0b00000011, 0b00000100, 0b10000101]
 /// ```
 pub fn add(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,
@@ -379,7 +379,7 @@ pub fn add(
 /// bin result = [0b00000001, 0b01000010, 0b00000011, 0b0000011, 0b10000101]
 /// ```
 pub fn subtract(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,
@@ -413,7 +413,7 @@ pub fn subtract(
 /// bin result = [0b00111111, 0b11000010, 0b00000011, 0b0000100, 0b00000101]
 /// ```
 pub fn set_int(
-    policy: &BitPolicy,
+    policy: BitPolicy,
     bit_offset: FilterExpression,
     bit_size: FilterExpression,
     value: FilterExpression,

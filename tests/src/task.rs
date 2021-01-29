@@ -38,7 +38,7 @@ fn register_task_test() {
     "#;
 
     let udf_name = common::rand_str(10);
-    let udf_file_name = udf_name.clone().to_owned() + ".LUA";
+    let udf_file_name = udf_name.to_owned() + ".LUA";
 
     let register_task = client
         .register_udf(
@@ -77,7 +77,7 @@ fn index_task_test() {
     let index_name = common::rand_str(10);
 
     let wpolicy = WritePolicy::default();
-    for i in 0..2 as i64 {
+    for i in 0..2_i64 {
         let key = as_key!(namespace, &set_name, i);
         let wbin = as_bin!(&bin_name, i);
         let bins = vec![&wbin];

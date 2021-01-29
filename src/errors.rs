@@ -22,7 +22,8 @@
 //! ```rust
 //! use aerospike::*;
 //!
-//! let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+//! # dotenv::dotenv().ok();
+//! # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
 //! let policy = ClientPolicy::default();
 //! let client = Client::new(&policy, &hosts).expect("Failed to connect to cluster");
 //! let key = as_key!("test", "test", "someKey");

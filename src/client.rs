@@ -91,7 +91,8 @@ impl Client {
     /// ```rust
     /// use aerospike::{Client, ClientPolicy};
     ///
-    /// let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// ```
     pub fn new(policy: &ClientPolicy, hosts: &dyn ToHosts) -> Result<Self> {
@@ -147,7 +148,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// match client.get(&ReadPolicy::default(), &key, ["a", "b"]) {
@@ -165,7 +167,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// match client.get(&ReadPolicy::default(), &key, Bins::None) {
@@ -204,7 +207,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let bins = Bins::from(["name", "age"]);
     /// let mut batch_reads = vec![];
@@ -244,7 +248,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// let bin = as_bin!("i", 42);
@@ -259,7 +264,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// let bin = as_bin!("i", 42);
@@ -297,7 +303,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// let bina = as_bin!("a", 1);
@@ -367,7 +374,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// match client.delete(&WritePolicy::default(), &key) {
@@ -392,7 +400,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// let mut policy = WritePolicy::default();
@@ -428,7 +437,8 @@ impl Client {
     /// ```rust
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let key = as_key!("test", "test", "mykey");
     /// let bin = as_bin!("a", 42);
@@ -460,7 +470,8 @@ impl Client {
     /// # extern crate aerospike;
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let code = r#"
     /// -- Validate value before writing.
@@ -616,7 +627,8 @@ impl Client {
     /// # extern crate aerospike;
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// match client.scan(&ScanPolicy::default(), "test", "demo", Bins::All) {
     ///     Ok(records) => {
@@ -704,7 +716,8 @@ impl Client {
     /// # extern crate aerospike;
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// let stmt = Statement::new("test", "test", Bins::All);
     /// match client.query(&QueryPolicy::default(), stmt) {
@@ -809,7 +822,8 @@ impl Client {
     /// # extern crate aerospike;
     /// # use aerospike::*;
     ///
-    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap();
+    /// # dotenv::dotenv().ok();
+    /// # let hosts = std::env::var("AEROSPIKE_HOSTS").unwrap_or_else(|_why| "127.0.0.1:3000".to_string());
     /// # let client = Client::new(&ClientPolicy::default(), &hosts).unwrap();
     /// match client.create_index(&WritePolicy::default(), "foo", "bar", "baz",
     ///     "idx_foo_bar_baz", IndexType::Numeric) {

@@ -192,7 +192,7 @@ impl Default for MapPolicy {
 
 /// Determines the correct operation to use when setting one or more map values, depending on the
 /// map policy.
-pub(crate) const fn map_write_op(policy: &MapPolicy, multi: bool) -> CdtMapOpType {
+pub(crate) const fn map_write_op(policy: MapPolicy, multi: bool) -> CdtMapOpType {
     match policy.write_mode {
         MapWriteMode::Update => {
             if multi {
@@ -218,7 +218,7 @@ pub(crate) const fn map_write_op(policy: &MapPolicy, multi: bool) -> CdtMapOpTyp
     }
 }
 
-const fn map_order_arg(policy: &MapPolicy) -> Option<CdtArgument> {
+const fn map_order_arg<'a>(policy: MapPolicy) -> Option<CdtArgument<'a>> {
     match policy.write_mode {
         MapWriteMode::UpdateOnly => None,
         _ => Some(CdtArgument::Byte(policy.order as u8)),
@@ -258,11 +258,11 @@ pub fn put<'a>(
     if !val.is_nil() {
         args.push(CdtArgument::Value(val));
     }
-    if let Some(arg) = map_order_arg(policy) {
+    if let Some(arg) = map_order_arg(*policy) {
         args.push(arg);
     }
     let cdt_op = CdtOperation {
-        op: map_write_op(policy, false) as u8,
+        op: map_write_op(*policy, false) as u8,
         encoder: Box::new(pack_cdt_op),
         args,
     };
@@ -286,11 +286,11 @@ pub fn put_items<'a>(
     items: &'a HashMap<Value, Value>,
 ) -> Operation<'a> {
     let mut args = vec![CdtArgument::Map(items)];
-    if let Some(arg) = map_order_arg(policy) {
+    if let Some(arg) = map_order_arg(*policy) {
         args.push(arg);
     }
     let cdt_op = CdtOperation {
-        op: map_write_op(policy, true) as u8,
+        op: map_write_op(*policy, true) as u8,
         encoder: Box::new(pack_cdt_op),
         args,
     };
@@ -317,7 +317,7 @@ pub fn increment_value<'a>(
     if !incr.is_nil() {
         args.push(CdtArgument::Value(incr));
     }
-    if let Some(arg) = map_order_arg(policy) {
+    if let Some(arg) = map_order_arg(*policy) {
         args.push(arg);
     }
     let cdt_op = CdtOperation {
@@ -348,7 +348,7 @@ pub fn decrement_value<'a>(
     if !decr.is_nil() {
         args.push(CdtArgument::Value(decr));
     }
-    if let Some(arg) = map_order_arg(policy) {
+    if let Some(arg) = map_order_arg(*policy) {
         args.push(arg);
     }
     let cdt_op = CdtOperation {

@@ -18,7 +18,6 @@
 use std::env;
 use std::sync::Arc;
 
-use rand;
 use rand::distributions::Alphanumeric;
 use rand::Rng;
 

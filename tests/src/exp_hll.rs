@@ -14,7 +14,6 @@
 // the License.
 
 use crate::common;
-use env_logger;
 
 use aerospike::expressions::hll::*;
 use aerospike::expressions::lists::*;
@@ -171,8 +170,10 @@ fn test_filter(filter: FilterExpression, set_name: &str) -> Arc<Recordset> {
     let client = common::client();
     let namespace = common::namespace();
 
-    let mut qpolicy = QueryPolicy::default();
-    qpolicy.filter_expression = Some(filter);
+    let qpolicy = QueryPolicy {
+        filter_expression: Some(filter),
+        ..Default::default()
+    };
 
     let statement = Statement::new(namespace, set_name, Bins::All);
     client.query(&qpolicy, statement).unwrap()

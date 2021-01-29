@@ -16,7 +16,6 @@
 use aerospike::WritePolicy;
 
 use crate::common;
-use env_logger;
 
 #[test]
 fn truncate() {
